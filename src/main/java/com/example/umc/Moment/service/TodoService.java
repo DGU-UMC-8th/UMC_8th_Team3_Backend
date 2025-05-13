@@ -1,10 +1,8 @@
 package com.example.umc.Moment.service;
 
-import com.example.umc.Moment.domain.Category;
 import com.example.umc.Moment.domain.Todo;
 import com.example.umc.Moment.dto.TodoRequest;
 import com.example.umc.Moment.dto.TodoResponse;
-import com.example.umc.Moment.repository.CategoryRepository;
 import com.example.umc.Moment.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,14 +15,9 @@ import java.util.stream.Collectors;
 public class TodoService {
 
     private final TodoRepository todoRepository;
-    private final CategoryRepository categoryRepository;
 
     public TodoResponse create(TodoRequest request) {
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
-
         Todo todo = new Todo();
-        todo.setCategory(category);
         todo.setTitle(request.getTitle());
         todo.setDate(request.getDate());
         todo.setStartTime(request.getStartTime());
@@ -44,10 +37,6 @@ public class TodoService {
     public TodoResponse update(Long id, TodoRequest request) {
         Todo todo = todoRepository.findById(id).orElseThrow();
 
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
-
-        todo.setCategory(category);
         todo.setTitle(request.getTitle());
         todo.setDate(request.getDate());
         todo.setStartTime(request.getStartTime());
@@ -71,7 +60,6 @@ public class TodoService {
                 .endTime(todo.getEndTime())
                 .energyLevel(todo.getEnergyLevel())
                 .upperTodoId(todo.getUpperTodoId())
-                .categoryId(todo.getCategory().getId())
                 .build();
     }
 }

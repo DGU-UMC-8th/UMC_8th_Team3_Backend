@@ -7,7 +7,6 @@ import java.time.LocalTime;
 
 @Getter
 public class TodoRequest {
-    private Long categoryId;
     private String title;
     private LocalDate date;
     private LocalTime startTime;
